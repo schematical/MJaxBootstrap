@@ -8,7 +8,7 @@ class MJaxBSControlBase extends MJaxExtensionBase{
 			$this->objControl->AddCssClass('table');
 		}
 		if($this->objControl instanceof MJaxLinkButton){
-			$this->objControl->AddCssClass('btn');
+			//$this->objControl->AddCssClass('btn');
 		}
 	}
 	public function Alert($mixObject, $strType = 'error'){
