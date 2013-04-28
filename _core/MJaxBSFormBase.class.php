@@ -6,6 +6,9 @@ class MJaxBSFormBase extends MJaxExtensionBase{
 		$this->objControl->AddHeaderAsset(new MJaxJSHeaderAsset(
             MLCApplication::GetAssetUrl('/js/MJax.BS.js', 'MJaxBootstrap')
         ));
+        $this->objControl->AddHeaderAsset(new MJaxCssHeaderAsset(
+            MLCApplication::GetAssetUrl('/css/bootstrap-responsive.css', 'MJaxBootstrap')
+        ));
 	}
 	public function GetLastAlertedControl(){
 		return self::$ctlLastAlert;

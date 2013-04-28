@@ -16,3 +16,5 @@ MLCApplicationBase::$arrClassFiles['MJaxBSCheckBox'] = __MJAX_BS_CORE_CTL__ . '/
 MJaxControlBase::AddExtension(new MJaxBSControlBase());
 MJaxFormBase::AddExtension(new MJaxBSFormBase());
 //MJaxTextBox::AddExtension(new MJaxBSTextBox());
+
+define('__MJAX_BS_ASSETS_JS__', MLCApplication::GetAssetUrl('/js', 'MJaxBootstrap'));

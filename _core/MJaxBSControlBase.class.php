@@ -48,13 +48,14 @@ class MJaxBSControlBase extends MJaxExtensionBase{
 		$strTriggerNow = '';
 		if(
 			
-			!(
+			(
 				(!array_key_exists('trigger', $arrOptions)) ||
 				(!$blnTriggger)
 			)
 		){
 			$strTriggerNow = ".popover('show')";
 		}
+
 		$this->objControl->Form->AddJSCall(
 			sprintf(
 				"$('#%s').popover(%s)%s;",
