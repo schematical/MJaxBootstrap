@@ -6,9 +6,21 @@ class MJaxBSFormBase extends MJaxExtensionBase{
 		$this->objControl->AddHeaderAsset(new MJaxJSHeaderAsset(
             MLCApplication::GetAssetUrl('/js/MJax.BS.js', 'MJaxBootstrap')
         ));
-        $this->objControl->AddHeaderAsset(new MJaxCssHeaderAsset(
-            MLCApplication::GetAssetUrl('/css/bootstrap-responsive.css', 'MJaxBootstrap')
-        ));
+        if(SERVER_ENV == 'prod'){
+            $this->objControl->AddHeaderAsset(new MJaxCssHeaderAsset(
+                MLCApplication::GetAssetUrl('/css/bootstrap.css', 'MJaxBootstrap')
+            ));
+            $this->objControl->AddHeaderAsset(new MJaxCssHeaderAsset(
+                MLCApplication::GetAssetUrl('/css/bootstrap-responsive.css', 'MJaxBootstrap')
+            ));
+        }else{
+            $this->objControl->AddHeaderAsset(new MJaxCssHeaderAsset(
+                MLCApplication::GetAssetUrl('/css/bootstrap.min.css', 'MJaxBootstrap')
+            ));
+            $this->objControl->AddHeaderAsset(new MJaxCssHeaderAsset(
+                MLCApplication::GetAssetUrl('/css/bootstrap-responsive.min.css', 'MJaxBootstrap')
+            ));
+        }
 	}
 	public function GetLastAlertedControl(){
 		return self::$ctlLastAlert;
@@ -91,7 +103,7 @@ class MJaxBSFormBase extends MJaxExtensionBase{
 		);
 		
 	}
-	public function AnimateOpen($mixControl){
+	public function AnimateOpen($mixControl, $strDirection = 'vert'){
 		if($mixControl instanceof MJaxControl){
 			$strControlId = $mixControl->ControlId;
 		}elseif(is_string($mixControl)){
@@ -101,14 +113,15 @@ class MJaxBSFormBase extends MJaxExtensionBase{
 		}
 		$this->objControl->AddJSCall(
 			sprintf(
-				"MJax.BS.AnimateOpen('#%s');",
-				$strControlId
+				"MJax.BS.AnimateOpen('#%s', '%s');",
+				$strControlId,
+                $strDirection
 			)
 		);
 		$this->objControl->ForceRenderFormState = true;
 		$this->objControl->SkipMainWindowRender = true;		
 	}
-	public function AnimateClosed($mixControl){
+	public function AnimateClosed($mixControl, $strDirection = 'vert'){
 		if($mixControl instanceof MJaxControl){
 			$strControlId = $mixControl->ControlId;
 		}elseif(is_string($mixControl)){
@@ -118,8 +131,9 @@ class MJaxBSFormBase extends MJaxExtensionBase{
 		}
 		$this->objControl->AddJSCall(
 			sprintf(
-				"MJax.BS.AnimateClosed('#%s');",
-				$strControlId
+				"MJax.BS.AnimateClosed('#%s', '%s');",
+				$strControlId,
+                $strDirection
 			)
 		);
 		$this->objControl->ForceRenderFormState = true;

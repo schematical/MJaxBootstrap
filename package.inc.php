@@ -9,6 +9,7 @@ MLCApplicationBase::$arrClassFiles['MJaxBSFormBase'] = __MJAX_BS_CORE__ . '/MJax
 MLCApplicationBase::$arrClassFiles['MJaxBSTextBox'] = __MJAX_BS_CORE__ . '/MJaxBSTextBox.class.php';
 //Ctl
 MLCApplicationBase::$arrClassFiles['MJaxBSCheckBox'] = __MJAX_BS_CORE_CTL__ . '/MJaxBSCheckBox.class.php';
+MLCApplicationBase::$arrClassFiles['MJaxBSBreadcrumbPanel'] = __MJAX_BS_CORE_CTL__ . '/MJaxBSBreadcrumbPanel.class.php';
 
 
 //require_once(__MJAX_BS_CORE__ . '/_enum.inc.php');
