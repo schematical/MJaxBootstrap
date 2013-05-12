@@ -2,7 +2,14 @@ MJax.BS = {};
 MJax.BS.ScrollTo = function(mixSelector){
 	 $('html, body').animate({
             scrollTop: ($(mixSelector).offset().top - 75)
-     }, 2000);
+     },
+     700,
+     function(){
+
+         $('.nav > li').removeClass('active');
+         var jSelected = $('.nav > li a[href="'+ mixSelector + '"]');
+         jSelected.parent().addClass('active');
+     });
 };
 MJax.Alert = MJax.BS.Alert = function(strHtml){
 	var jModal = $('#divModal');
@@ -72,6 +79,11 @@ $(function(){
 			.css('overflow','hidden');			
 		}
 	);
+    $(document).on('mjax-page-load', function(){
+        $('[data-spy="scroll"]').each(function () {
+            var $spy = $(this).scrollspy('refresh')
+        });
+    });
 })
 
 
