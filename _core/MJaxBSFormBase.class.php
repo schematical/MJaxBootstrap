@@ -35,7 +35,7 @@ class MJaxBSFormBase extends MJaxExtensionBase{
 		}else{
 			throw new Exception("Alert must have first parameter of type 'MJaxControlBase' or String");
 		}
-		$strContent = trim(str_replace('"','\\"',str_replace("\r","",str_replace("\n", "", $strContent))));
+		$strContent = trim(str_replace('"','\\"',str_replace("\r","",str_replace("\n", "\\n", $strContent))));
 		$this->objControl->AddJSCall(
 			sprintf(
 				'MJax.BS.Alert("%s");',
