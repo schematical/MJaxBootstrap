@@ -19,6 +19,7 @@ class MJaxBSBreadcrumbPanel extends MJaxPanel{
 
         $this->arrCrumbs[$intNewIndex] = $mixCrumb;
         $this->blnModified = true;
+        return $this->arrCrumbs[$intNewIndex];
     }
     public function ClearCrumbs($intAfterIndex = -1){
         foreach($this->arrCrumbs as $intIndex => $mixCrumb){
