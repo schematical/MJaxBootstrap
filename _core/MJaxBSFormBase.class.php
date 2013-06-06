@@ -3,6 +3,7 @@ class MJaxBSFormBase extends MJaxExtensionBase{
 	protected static $ctlLastAlert = null;
 	public function InitControl($objControl){
 		$this->objControl = $objControl;
+        $this->objControl->Footer = __MJAX_BS_CORE_VIEW__ . '/_footer.inc.php';
 		$this->objControl->AddHeaderAsset(new MJaxJSHeaderAsset(
             MLCApplication::GetAssetUrl('/js/MJax.BS.js', 'MJaxBootstrap')
         ));
