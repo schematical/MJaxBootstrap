@@ -11,18 +11,23 @@ class MJaxBSFormBase extends MJaxExtensionBase{
             $this->objControl->AddHeaderAsset(new MJaxCssHeaderAsset(
                 MLCApplication::GetAssetUrl('/css/bootstrap.css', 'MJaxBootstrap')
             ));
-            $this->objControl->AddHeaderAsset(new MJaxCssHeaderAsset(
-                MLCApplication::GetAssetUrl('/css/bootstrap-responsive.css', 'MJaxBootstrap')
-            ));
+            if(!defined('MLC_BS_SKIP_RESPONSIVE')){
+                $this->objControl->AddHeaderAsset(new MJaxCssHeaderAsset(
+                    MLCApplication::GetAssetUrl('/css/bootstrap-responsive.css', 'MJaxBootstrap')
+                ));
+            }
         }else{
             $this->objControl->AddHeaderAsset(new MJaxCssHeaderAsset(
                 MLCApplication::GetAssetUrl('/css/bootstrap.min.css', 'MJaxBootstrap')
             ));
-            $this->objControl->AddHeaderAsset(new MJaxCssHeaderAsset(
-                MLCApplication::GetAssetUrl('/css/bootstrap-responsive.min.css', 'MJaxBootstrap')
-            ));
+            if(!defined('MLC_BS_SKIP_RESPONSIVE')){
+                $this->objControl->AddHeaderAsset(new MJaxCssHeaderAsset(
+                    MLCApplication::GetAssetUrl('/css/bootstrap-responsive.min.css', 'MJaxBootstrap')
+                ));
+            }
         }
 	}
+
 	public function GetLastAlertedControl(){
 		return self::$ctlLastAlert;
 	}
