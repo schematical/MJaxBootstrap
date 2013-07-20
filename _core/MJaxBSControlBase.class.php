@@ -65,8 +65,9 @@ class MJaxBSControlBase extends MJaxExtensionBase{
 			)
 		);
 	}
-	public function Icon($strIcon){
-		$this->objControl->Text = sprintf('<i class="%s"></i>', $strIcon);
+	public function Icon($strIcon, $strIconSize = ''){
+
+		$this->objControl->Text = sprintf('<i class="%s %s"></i>', $strIcon, $strIconSize);
 	}
 	//public function Popover(){
 		//<a href="#" class="btn" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." title="Popover on top">Popover on top</a>

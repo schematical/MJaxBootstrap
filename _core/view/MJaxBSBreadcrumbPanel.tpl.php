@@ -8,10 +8,13 @@
             } ?>
             <?php //echo count($_CONTROL->arrCrumbs) . '>' . $intIndex;
             if(count($_CONTROL->arrCrumbs) -1 > $intIndex){ ?>
-                <span class="divider">/</span>
+                <span class="divider">
+                    <i class="icon-chevron-right"></i>
+                </span>
             <?php } ?>
         </li>
     <?php } ?>
+
     <!--li>
         <a href="#">Library</a>
         <span class="divider">/</span>

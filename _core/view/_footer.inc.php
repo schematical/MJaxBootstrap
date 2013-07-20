@@ -15,7 +15,7 @@
 <!-- Le javascript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<!--script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
 <script src="<?php echo(__MJAX_BS_ASSETS_JS__); ?>/bootstrap-alert.js"></script>
 <script src="<?php echo(__MJAX_BS_ASSETS_JS__); ?>/bootstrap-modal.js"></script>
 <script src="<?php echo(__MJAX_BS_ASSETS_JS__); ?>/bootstrap-dropdown.js"></script>
@@ -27,7 +27,7 @@
 <script src="<?php echo(__MJAX_BS_ASSETS_JS__); ?>/bootstrap-collapse.js"></script>
 <script src="<?php echo(__MJAX_BS_ASSETS_JS__); ?>/bootstrap-carousel.js"></script>
 <script src="<?php echo(__MJAX_BS_ASSETS_JS__); ?>/bootstrap-typeahead.js"></script>
-<script src="<?php echo(__MJAX_BS_ASSETS_JS__); ?>/bootstrap-affix.js"></script>
+<script src="<?php echo(__MJAX_BS_ASSETS_JS__); ?>/bootstrap-affix.js"></script-->
 
 
 
