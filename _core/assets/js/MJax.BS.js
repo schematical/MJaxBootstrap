@@ -59,6 +59,7 @@ MJax.BS.AnimateClosed = function(mixEle){
     }, 2000);
    // MJax.BS.ScrollTo(jEle);
 }
+
 //Init stuff
 
 $(function(){

@@ -1,8 +1,8 @@
 <?php
 class MJaxBSBreadcrumbPanel extends MJaxPanel{
     public $arrCrumbs = array();
-    public function __construct($objParentControl, $objMDEApp = null) {
-        parent::__construct($objParentControl, $objMDEApp);
+    public function __construct($objParentControl, $strControlId = null) {
+        parent::__construct($objParentControl, $strControlId);
         $this->strTemplate = __MJAX_BS_CORE_VIEW__ . '/MJaxBSBreadcrumbPanel.tpl.php';
     }
     public function AddCrumb($mixCrumb, $objEvent = null, $mixAction = null){

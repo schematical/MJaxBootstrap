@@ -17,6 +17,36 @@ class MJaxBSControlBase extends MJaxExtensionBase{
 	public function AnimateOpen($mixObject){
 		$this->objControl->Form->AnimateOpen($this->objControl, $mixObject);
 	}
+    public function Typehead($objListener, $strFunction){
+        $strJs = sprintf("
+            $('#%s').typeahead({
+                source:function(strSearch, funProcess){
+                    $.ajax({
+                        url: MJax.strCurrPageUrl + '.typehead_%s',
+                        success: funProcess,
+                        data:{
+                            search:strSearch
+                        },
+                        dataType:'json',
+                        error: MJax.LoadMainPageLoadFail,
+                        type:'POST'
+                    });
+                }
+             });
+        ",
+            $this->objControl->ControlId,
+            $this->objControl->ControlId
+        );
+        $this->objControl->Form->AddJSCall(
+            $strJs
+        );
+        $this->objControl->Form->AddRoute(
+            array('get', 'post'),
+            'typehead_' . $this->objControl->ControlId,
+            $strFunction,
+            $objListener
+        );
+    }
 	public function ToolTip($strToolTip, $strPlacement = 'top'){
 		$this->objControl->Attr('data-toggle', 'tooltip');
 		$this->objControl->Attr('title',$strToolTip);
