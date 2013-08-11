@@ -84,7 +84,16 @@ $(function(){
         $('[data-spy="scroll"]').each(function () {
             var $spy = $(this).scrollspy('refresh')
         });
+
+
     });
+    $(document).on('mjax-ajax-response', function(){
+
+        //Hide all alerts
+        $('.mlc-bs-alert').remove();
+
+    });
+
 })
 
 
