@@ -74,8 +74,11 @@ $(function(){
 	);
 	$('.mjax-bs-animate-hiden').each(
 		function(){
-			var jThis = $(this);	
-			jThis.attr('data-orig-height', jThis.height())
+			var jThis = $(this);
+            var intHeight = jThis.attr('data-orig-height');
+            if(typeof intHeight == 'undefined'){
+                jThis.attr('data-orig-height', jThis.height());
+            }
 			jThis.css('height', '0Px')
 			.css('overflow','hidden');			
 		}
