@@ -12,6 +12,7 @@ MLCApplicationBase::$arrClassFiles['MJaxBSCheckBox'] = __MJAX_BS_CORE_CTL__ . '/
 MLCApplicationBase::$arrClassFiles['MJaxBSBreadcrumbPanel'] = __MJAX_BS_CORE_CTL__ . '/MJaxBSBreadcrumbPanel.class.php';
 MLCApplicationBase::$arrClassFiles['MJaxBSAlertPanel'] = __MJAX_BS_CORE_CTL__ . '/MJaxBSAlertPanel.class.php';
 MLCApplicationBase::$arrClassFiles['MJaxBSDateTimePicker'] = __MJAX_BS_CORE_CTL__ . '/MJaxBSDateTimePicker.class.php';
+MLCApplicationBase::$arrClassFiles['MJaxBSAutocompleteTextBox'] = __MJAX_BS_CORE_CTL__ . '/MJaxBSAutocompleteTextBox.class.php';
 
 
 //require_once(__MJAX_BS_CORE__ . '/_enum.inc.php');

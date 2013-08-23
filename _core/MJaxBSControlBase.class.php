@@ -29,9 +29,12 @@ class MJaxBSControlBase extends MJaxExtensionBase{
                         },
                         dataType:'json',
                         error: MJax.LoadMainPageLoadFail,
-                        type:'POST'
+                        type:'POST',
+
                     });
-                }
+                },
+                menu: '<ol class=\"typeahead dropdown-menu\"></ol>',
+                item:'<li><a href=\"#\"></a></li>'
              });
         ",
             $this->objControl->ControlId,

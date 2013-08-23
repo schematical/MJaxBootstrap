@@ -96,7 +96,45 @@ $(function(){
         $('.mlc-bs-alert').remove();
 
     });
+    $.fn.typeahead.Constructor.prototype.render = function (items) {
+        var that = this
 
+        items = $(items).map(function (i, item) {
+            i = $(that.options.item).attr('data-value', item.value)
+            i.attr('data-text', item.text)
+            i.find('a').html(that.highlighter(item.text))
+            return i[0]
+        })
+
+        items.first().addClass('active')
+        this.$menu.html(items)
+        return this
+    }
+    $.fn.typeahead.Constructor.prototype.process = function (items) {
+        return this.render(items).show();
+        var that = this
+
+        /*items = $.grep(items, function (item) {
+            return that.matcher(item)
+        })
+
+        items = this.sorter(items)
+
+        if (!items.length) {
+            return this.shown ? this.hide() : this
+        }
+
+        return this.render(items.slice(0, this.options.items)).show()*/
+    }
+    $.fn.typeahead.Constructor.prototype.select =  function () {
+        var val = this.$menu.find('.active').attr('data-value');
+        var text = this.$menu.find('.active').attr('data-text');
+        this.$element
+            .val(this.updater(text))
+            .change();
+        $('#' + this.$element.attr('data-real-id')).val(val).change();
+        return this.hide()
+    }
 })
 
 
