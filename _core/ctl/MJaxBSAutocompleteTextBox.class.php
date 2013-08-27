@@ -18,8 +18,13 @@ class MJaxBSAutocompleteTextBox extends MJaxTextBox{
 
                 $('#%s_proxy').typeahead({
                     source:function(strSearch, funProcess){
+                        if(MJax.strCurrPageUrl.indexOf('?') == -1){
+                            var strUrl = MJax.strCurrPageUrl + '.typehead_%s'
+                        }else{
+                            var strUrl = MJax.strCurrPageUrl + '&mjax-route-ext=typehead_%s';
+                        }
                         $.ajax({
-                            url: MJax.strCurrPageUrl + '.typehead_%s',
+                            url: strUrl,
                             success: funProcess,
                             data:{
                                 search:strSearch
@@ -35,6 +40,7 @@ class MJaxBSAutocompleteTextBox extends MJaxTextBox{
                  });
 
             ",
+            $this->ControlId,
             $this->ControlId,
             $this->ControlId
         );

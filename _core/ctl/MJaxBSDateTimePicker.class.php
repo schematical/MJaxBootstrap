@@ -11,6 +11,7 @@ class MJaxBSDateTimePicker extends MJaxPanel{
         'showMeridian'=> 1
     );
     public $strFormat = 'dd MM yyyy - HH:ii p';
+    public $strLinkFormat = null;
     public $txtDate = null;
     public function __construct($objParentControl, $objMDEApp = null) {
         parent::__construct($objParentControl, $objMDEApp);
@@ -32,6 +33,19 @@ class MJaxBSDateTimePicker extends MJaxPanel{
         $this->txtDate->Attr('size', '16');
         $this->txtDate->Attr('readonly', 'readonly');
         $this->txtDate->TextMode = MJaxTextMode::Hidden;
+    }
+    public function DateOnly(){
+        $this->strFormat = 'dd MM yyyy';
+        $this->strLinkFormat = 'yyyy-mm-dd';
+        $this->arrOptions['minView'] = 2;
+    }
+    public function TimeOnly(){
+        $this->strFormat = 'hh:ii';
+        $this->strLinkFormat = 'hh:ii';
+        $this->arrOptions['minView'] = 0;
+        $this->arrOptions['maxView'] = 1;
+        $this->arrOptions['startView'] = 1;
+
     }
     public function Render($blnPrint = true, $blnAjax = false){
 
@@ -75,7 +89,7 @@ class MJaxBSDateTimePicker extends MJaxPanel{
             case "Format":
                 return $this->strFormat;
             case "Value":
-                return $this->txtDate->Text;
+                return $this->GetValue();
             case "Options":
                 return $this->arrOptions;
             default:
@@ -105,6 +119,9 @@ class MJaxBSDateTimePicker extends MJaxPanel{
     }
     public function GetValue(){
         $this->blnModified = true;
+        if(strlen($this->txtDate->Text) < 2){
+            return null;
+        }
         return $this->txtDate->Text;
     }
     public function SetValue($mixVal){
