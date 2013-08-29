@@ -27,6 +27,23 @@ class MJaxBSFormBase extends MJaxExtensionBase{
             }
         }
 	}
+    public function Confirm($strText, $objListener, $funConfirm, $funCancel = null){
+        $pnlConfirm = new MJaxBSConfirmPanel($this->objControl);
+        $pnlConfirm->Text = $strText;
+        $pnlConfirm->AddAction(
+            new MJaxBSConfirmEvent(),
+            new MJaxServerControlAction($objListener, $funConfirm)
+        );
+        if(!is_null($funCancel)){
+            $pnlConfirm->AddAction(
+                new MJaxBSCancelEvent(),
+                new MJaxServerControlAction($objListener, $funCancel)
+            );
+        }
+        $this->objControl->Alert(
+            $pnlConfirm
+        );
+    }
 
 	public function GetLastAlertedControl(){
 		return self::$ctlLastAlert;

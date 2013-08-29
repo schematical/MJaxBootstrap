@@ -1,5 +1,6 @@
 <?php
 class MJaxBSControlBase extends MJaxExtensionBase{
+    protected $intBootstroStep = 0;
 	protected $strInputPrepend = null;
 	protected $strInputAppend = null;
 	public function InitControl($objControl){
@@ -17,6 +18,22 @@ class MJaxBSControlBase extends MJaxExtensionBase{
 	public function AnimateOpen($mixObject){
 		$this->objControl->Form->AnimateOpen($this->objControl, $mixObject);
 	}
+    public function Confirm($strText, $funConfirm, $funCancel = null){
+        $this->objControl->Form->Confirm($strText, $this->objControl, $funConfirm, $funCancel);
+    }
+    public function Intro($strTitle, $strContent, $intStep = null){
+        $this->objControl->AddCssClass("bootstro");// bootstro-highlight"
+        if(is_null($intStep)){
+            $intStep = $this->intBootstroStep;
+        }
+        $this->objControl->Attr('data-bootstro-step', $intStep);
+        $this->objControl->Attr('data-bootstro-title', $strTitle);
+        $this->objControl->Attr('data-bootstro-content',$strContent);
+        $this->objControl->Attr('data-bootstro-width',"400px");
+        $this->objControl->Attr('data-bootstro-placement', "bottom");
+        $this->objControl->Attr('data-original-title', '');
+        $this->intBootstroStep += 1;
+    }
     public function Typehead($objListener, $strFunction){
         $strJs = sprintf("
             $('#%s').typeahead({
