@@ -5,3 +5,6 @@ class MJaxBSConfirmEvent extends MJaxEventBase{
 class MJaxBSCancelEvent extends MJaxEventBase{
     protected $strEventName = 'mjax-bs-cancel';
 }
+class MJaxBSAutocompleteSelectEvent extends MJaxEventBase{
+    protected $strEventName = 'mjax-bs-autocomplete-select';
+}

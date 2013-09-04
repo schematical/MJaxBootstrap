@@ -1,28 +1,45 @@
 <?php
 class MJaxBSAutocompleteTextBox extends MJaxTextBox{
     protected $strProxyText = null;
-    public function __construct($objParentControl, $objListener, $strFunction){
+    protected $strUrl = null;
+    public function __construct($objParentControl, $strUrl, $strFunction = null){
         parent::__construct($objParentControl);
-        $this->objForm->AddRoute(
-            array('get', 'post'),
-            'typehead_' . $this->strControlId,
-            $strFunction,
-            $objListener
-        );
+        if(is_string($strUrl)){
+            $this->strUrl = $strUrl;
+        }else{
+            $this->objForm->AddRoute(
+                array('get', 'post'),
+                'typehead_' . $this->strControlId,
+                $strFunction,
+                $strUrl
+            );
+        }
         $this->strTextMode = MJaxTextMode::Hidden;
     }
     public function Render($blnPrint = true, $blnAjax = false){
         $strHtml = parent::Render(false);
+        //Messed up hacky stuff
+        //TODO: Remove all this BS seperate out properly
+        if(is_null($this->strUrl)){
+            $strUrlCode = sprintf("if(MJax.strCurrPageUrl.indexOf('?') == -1){
+                            var strUrl = MJax.strCurrPageUrl + '.typehead_%s'
+                        }else{
+                            var strUrl = MJax.strCurrPageUrl + '&mjax-route-ext=typehead_%s';
+                        }",
+                $this->ControlId,
+                $this->ControlId
+            );
+        }else{
+            $strUrlCode = 'var strUrl = "' . $this->strUrl . '";';
+        }
+
 
         $strJs = sprintf("
 
                 $('#%s_proxy').typeahead({
                     source:function(strSearch, funProcess){
-                        if(MJax.strCurrPageUrl.indexOf('?') == -1){
-                            var strUrl = MJax.strCurrPageUrl + '.typehead_%s'
-                        }else{
-                            var strUrl = MJax.strCurrPageUrl + '&mjax-route-ext=typehead_%s';
-                        }
+
+                        %s
                         $.ajax({
                             url: strUrl,
                             success: funProcess,
@@ -40,9 +57,10 @@ class MJaxBSAutocompleteTextBox extends MJaxTextBox{
                  });
 
             ",
+
+
             $this->ControlId,
-            $this->ControlId,
-            $this->ControlId
+            $strUrlCode
         );
         if(!$blnAjax){
             $strHtml .= sprintf(
@@ -100,6 +118,26 @@ class MJaxBSAutocompleteTextBox extends MJaxTextBox{
             default:
                 return parent::__set($strName, $mixValue);
         }
+    }
+    public function GetValue(){
+        $arrParts = explode('_', $this->strText);
+        if(
+            (count($arrParts) == 2) &&
+            (class_exists($arrParts[0]))
+        ){
+            return call_user_func($arrParts[0] . '::LoadById', $arrParts[1]);
+        }
+        return parent::GetValue();
+    }
+    public function SetValue($mixData){
+        if(
+            (is_object($mixData)) &&
+            ($mixData instanceof BaseEntity)
+        ){
+            $this->strProxyText = $mixData->__toString();
+            return $this->strText = get_class($mixData) . '_' . $mixData->GetId();
+        }
+        return parent::SetValue($mixData);
     }
 
 }

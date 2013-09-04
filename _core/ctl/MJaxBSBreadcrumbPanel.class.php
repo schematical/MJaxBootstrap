@@ -6,11 +6,16 @@ class MJaxBSBreadcrumbPanel extends MJaxPanel{
         $this->strTemplate = __MJAX_BS_CORE_VIEW__ . '/MJaxBSBreadcrumbPanel.tpl.php';
     }
     public function AddCrumb($mixCrumb, $objEvent = null, $mixAction = null){
-        if(!is_null($objEvent)){
+        if(!is_null($objEvent) ){
             $strText = $mixCrumb;
             $mixCrumb = new MJaxLinkButton($this);
             $mixCrumb->Text = $strText;
-            $mixCrumb->AddAction($objEvent, $mixAction);
+            if(!is_string($objEvent)){
+                $mixCrumb->AddAction($objEvent, $mixAction);
+            }else{
+                $mixCrumb->Href = $objEvent;
+            }
+
         }
         $intNewIndex = count($this->arrCrumbs);
         if($mixCrumb instanceof MJaxControl){

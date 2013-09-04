@@ -21,17 +21,24 @@ class MJaxBSControlBase extends MJaxExtensionBase{
     public function Confirm($strText, $funConfirm, $funCancel = null){
         $this->objControl->Form->Confirm($strText, $this->objControl, $funConfirm, $funCancel);
     }
-    public function Intro($strTitle, $strContent, $intStep = null){
+    public function Intro($strTitle, $strContent, $intStep = null, $strPlacement = "top"){
         $this->objControl->AddCssClass("bootstro");// bootstro-highlight"
         if(is_null($intStep)){
             $intStep = $this->intBootstroStep;
         }
         $this->objControl->Attr('data-bootstro-step', $intStep);
-        $this->objControl->Attr('data-bootstro-title', $strTitle);
-        $this->objControl->Attr('data-bootstro-content',$strContent);
+        $this->objControl->Attr('data-bootstro-title', htmlspecialchars($strTitle, ENT_QUOTES));
+        $this->objControl->Attr('data-bootstro-content',htmlspecialchars($strContent, ENT_QUOTES));
         $this->objControl->Attr('data-bootstro-width',"400px");
-        $this->objControl->Attr('data-bootstro-placement', "bottom");
+        $this->objControl->Attr('data-bootstro-placement', $strPlacement);
         $this->objControl->Attr('data-original-title', '');
+        if($this->intBootstroStep == 0){
+            $this->objControl->Form->AddJSCall(
+                "$(document).ready(function(){
+                     bootstro.start('.bootstro');
+                });"
+            );
+        }
         $this->intBootstroStep += 1;
     }
     public function Typehead($objListener, $strFunction){
