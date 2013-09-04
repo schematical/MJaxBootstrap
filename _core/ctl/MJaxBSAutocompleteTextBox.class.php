@@ -62,6 +62,7 @@ class MJaxBSAutocompleteTextBox extends MJaxTextBox{
             $this->ControlId,
             $strUrlCode
         );
+
         if(!$blnAjax){
             $strHtml .= sprintf(
                 "<input id='%s_proxy' name='%s' type='text' value='%s' data-real-id='%s' %s></input>",
@@ -81,7 +82,7 @@ class MJaxBSAutocompleteTextBox extends MJaxTextBox{
                 $strJs
             );
         }
-        $this->blnModified = true;
+        $this->blnModified = false;
         if($blnPrint){
             echo $strHtml;
         }
@@ -99,7 +100,8 @@ class MJaxBSAutocompleteTextBox extends MJaxTextBox{
                 return $this->strProxyText;
             case "Value":
                 return $this->strText;
-
+            case "Url":
+                return $this->strUrl;
             default:
                 return parent::__get($strName);
         }
@@ -115,6 +117,8 @@ class MJaxBSAutocompleteTextBox extends MJaxTextBox{
                 return $this->strProxyText = $mixValue;
             case "Value":
                 return $this->strText = $mixValue;
+            case "Url":
+                return $this->strUrl = $mixValue;
             default:
                 return parent::__set($strName, $mixValue);
         }
@@ -135,9 +139,16 @@ class MJaxBSAutocompleteTextBox extends MJaxTextBox{
             ($mixData instanceof BaseEntity)
         ){
             $this->strProxyText = $mixData->__toString();
+
             return $this->strText = get_class($mixData) . '_' . $mixData->GetId();
+        }else{
+            //throw new Exception($this->strProxyText);
+
+            $this->strProxyText = $mixData;
+
+            return parent::SetValue($mixData);
         }
-        return parent::SetValue($mixData);
+
     }
 
 }

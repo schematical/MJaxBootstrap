@@ -1,4 +1,9 @@
 <?php
+/**
+ * Class MJaxBSDateTimePicker
+ * @property string $Format
+ * @property string LinkFormat
+ */
 class MJaxBSDateTimePicker extends MJaxPanel{
     public $arrOptions = array(
         //'language'=>  'fr',
@@ -48,7 +53,7 @@ class MJaxBSDateTimePicker extends MJaxPanel{
 
     }
     public function Render($blnPrint = true, $blnAjax = false){
-
+        //$this->txtDate->Text = date($this->strFormat, strtotime($this->txtDate->Text));
         $strHtml = parent::Render(false);
 
 
@@ -60,19 +65,24 @@ class MJaxBSDateTimePicker extends MJaxPanel{
             $this->ControlId,
             json_encode($this->arrOptions)
         );
-        if(!$blnAjax){
+        if($this->objForm->CallType == MJaxCallType::None){
             $strHtml .= "<script language='javascript'>";
             $strHtml .= '$(function(){ ';
             $strHtml .= $strJs;
             $strHtml .= '});';
             $strHtml .= '</script>';
         }else{
+
             $this->objForm->AddJSCall(
                 $strJs
             );
+
+        }
+        if($blnAjax){
+            $strHtml = MLCApplication::XmlEscape(trim($strHtml));
         }
         $this->txtDate->Modified = false;
-        $this->blnModified = true;
+        $this->blnModified = false;
         if($blnPrint){
             echo $strHtml;
         }
@@ -110,6 +120,8 @@ class MJaxBSDateTimePicker extends MJaxPanel{
                 return  $this->SetValue($mixValue);
             case "Format":
                 return $this->strFormat = $mixValue;
+            case "LinkFormat":
+                return $this->strLinkFormat = $mixValue;
             case "Options":
                 return $this->arrOptions = $mixValue;
             default:
