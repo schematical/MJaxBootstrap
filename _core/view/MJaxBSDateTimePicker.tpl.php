@@ -7,7 +7,7 @@
         <?php if(!is_null($_CONTROL->strLinkFormat)){
             echo ' data-link-format="' . $_CONTROL->strLinkFormat .'"';
         } ?>>
-        <input size="16" type="text" value="<?php echo $_CONTROL->txtDate->Text; ?>" readonly='readonly' />
+        <input size="16" type="text" value="<?php echo $dttConvert = date($_CONTROL->_translate($_CONTROL->strFormat), strtotime($_CONTROL->txtDate->Text)); ?>" readonly='readonly' />
 
         <span class="add-on"><i class="icon-remove"></i></span>
         <span class="add-on"><i class="icon-th"></i></span>

@@ -125,6 +125,16 @@ class MJaxBSAutocompleteTextBox extends MJaxTextBox{
                 return parent::__set($strName, $mixValue);
         }
     }
+    public function SetSearchEntity($strEntity, $strField = null){
+        $strSearchExt = $strEntity;
+        $strSearchExt .= '_' .$strField;
+        $this->strUrl = $this->objForm->objEntityManager->GetUrl(
+            '/data/search',
+            array(
+                'mjax-route-ext'=> $strSearchExt
+            )
+        );
+    }
     public function GetValue(){
         $arrParts = explode('_', $this->strText);
         if(

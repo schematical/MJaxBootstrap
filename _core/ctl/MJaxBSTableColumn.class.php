@@ -39,22 +39,24 @@ class MJaxBSTableColumn extends MJaxTableColumn{
         return $ctlEdit;
     }
     public function UpdateValue(){
-        $ctlEdit = $this->GetEditControl();
+        if(!is_null($this->objTable->SelectedRow)){
+            $ctlEdit = $this->GetEditControl();
 
-        $ctlEdit->ParsePostData();
-        $mixValue = $ctlEdit->GetValue();
-        if(
-            (is_object($mixValue)) &&
-            ($mixValue instanceof BaseEntity)
-        ){
-            if(!is_null($this->strSearchField)){
-                $mixValue = $mixValue->__get($this->strSearchField);
+            //$ctlEdit->ParsePostData();
+            $mixValue = $ctlEdit->GetValue();
+            if(
+                (is_object($mixValue)) &&
+                ($mixValue instanceof BaseEntity)
+            ){
+                if(!is_null($this->strSearchField)){
+                    $mixValue = $mixValue->__get($this->strSearchField);
+                }
             }
+            $this->objTable->SelectedRow->SetData(
+                $this->strKey,
+                $mixValue
+            );
         }
-        $this->objTable->SelectedRow->SetData(
-            $this->strKey,
-            $mixValue
-        );
     }
 
     public function RenderInner($objRow){

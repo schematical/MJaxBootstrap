@@ -15,7 +15,16 @@ class MJaxBSDateTimePicker extends MJaxPanel{
         'forceParse'=> 0,
         'showMeridian'=> 1
     );
-    public $strFormat = 'dd MM yyyy - HH:ii p';
+    public $arrIsoHack = array(
+        'hh' => 'h',
+        'ii' => 'i',
+        'ss' => 's',
+        'dd' => 'd',
+        'mm' => 'm',
+        'MM' => 'M',
+        'yy' => 'y'
+    );
+    public $strFormat = DATE_ISO8601;//'dd MM yyyy - HH:ii p';//'d M yy - H:i p';
     public $strLinkFormat = null;
     public $txtDate = null;
     public function __construct($objParentControl, $objMDEApp = null) {
@@ -53,7 +62,9 @@ class MJaxBSDateTimePicker extends MJaxPanel{
 
     }
     public function Render($blnPrint = true, $blnAjax = false){
-        //$this->txtDate->Text = date($this->strFormat, strtotime($this->txtDate->Text));
+
+
+
         $strHtml = parent::Render(false);
 
 
@@ -131,13 +142,29 @@ class MJaxBSDateTimePicker extends MJaxPanel{
     }
     public function GetValue(){
         $this->blnModified = true;
+
         if(strlen($this->txtDate->Text) < 2){
             return null;
         }
-        return $this->txtDate->Text;
+        $strDate = MLCDateTime::ConvertFromFormatToFormat($this->strFormat, MLCDateTime::MYSQL_FORMAT, $this->txtDate->Text);
+        return $strDate;
     }
     public function SetValue($mixVal){
+
         return $this->txtDate->Text = $mixVal;
     }
+    public function _translate($strDate, $blnReverse = false){
+        foreach($this->arrIsoHack as $strFind => $strReplace){
+            if(!$blnReverse){
+                $strDate = str_replace($strFind, $strReplace, $strDate);
+            }else{
+                $strDate = str_replace($strReplace, $strFind, $strDate);
+            }
+        }
+
+        return $strDate;
+    }
+
+
 
 }
