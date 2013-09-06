@@ -16,6 +16,8 @@ MLCApplicationBase::$arrClassFiles['MJaxBSAutocompleteTextBox'] = __MJAX_BS_CORE
 MLCApplicationBase::$arrClassFiles['MJaxBSDropdown'] = __MJAX_BS_CORE_CTL__ . '/MJaxBSDropdown.class.php';
 MLCApplicationBase::$arrClassFiles['MJaxBSConfirmPanel'] = __MJAX_BS_CORE_CTL__ . '/MJaxBSConfirmPanel.class.php';
 
+MLCApplicationBase::$arrClassFiles['MJaxBSTableColumn'] = __MJAX_BS_CORE_CTL__ . '/MJaxBSTableColumn.class.php';
+
 
 
 require_once(__MJAX_BS_CORE_CTL__ . '/_events.inc.php');

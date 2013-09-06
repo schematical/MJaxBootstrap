@@ -2,18 +2,20 @@
 class MJaxBSAutocompleteTextBox extends MJaxTextBox{
     protected $strProxyText = null;
     protected $strUrl = null;
-    public function __construct($objParentControl, $strUrl, $strFunction = null){
-        parent::__construct($objParentControl);
-        if(is_string($strUrl)){
-            $this->strUrl = $strUrl;
-        }else{
-            $this->objForm->AddRoute(
-                array('get', 'post'),
-                'typehead_' . $this->strControlId,
-                $strFunction,
-                $strUrl
-            );
-        }
+    public function __construct($objParentControl, $strControlId = null){//$strUrl = null, $strFunction = null){
+        parent::__construct($objParentControl, $strControlId);
+       /* if(!is_null($strUrl)){
+            if(is_string($strUrl)){
+                $this->strUrl = $strUrl;
+            }else{
+                $this->objForm->AddRoute(
+                    array('get', 'post'),
+                    'typehead_' . $this->strControlId,
+                    $strFunction,
+                    $strUrl
+                );
+            }
+        }*/
         $this->strTextMode = MJaxTextMode::Hidden;
     }
     public function Render($blnPrint = true, $blnAjax = false){
@@ -65,7 +67,7 @@ class MJaxBSAutocompleteTextBox extends MJaxTextBox{
 
         if(!$blnAjax){
             $strHtml .= sprintf(
-                "<input id='%s_proxy' name='%s' type='text' value='%s' data-real-id='%s' %s></input>",
+                "<input id='%s_proxy' name='%s' type='text' value='%s' data-real-id='%s' %s />",
                 $this->strControlId,
                 $this->strName,
                 $this->strProxyText,
