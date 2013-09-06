@@ -127,7 +127,9 @@ class MJaxBSAutocompleteTextBox extends MJaxTextBox{
     }
     public function SetSearchEntity($strEntity, $strField = null){
         $strSearchExt = $strEntity;
-        $strSearchExt .= '_' .$strField;
+        if(!is_null($strField)){
+            $strSearchExt .= '_' .$strField;
+        }
         $this->strUrl = $this->objForm->objEntityManager->GetUrl(
             '/data/search',
             array(

@@ -22,9 +22,10 @@ class MJaxBSDateTimePicker extends MJaxPanel{
         'dd' => 'd',
         'mm' => 'm',
         'MM' => 'M',
-        'yy' => 'y'
+        'yy' => 'Y',
+        'yy' => 'y',
     );
-    public $strFormat = DATE_ISO8601;//'dd MM yyyy - HH:ii p';//'d M yy - H:i p';
+    public $strFormat = 'm/d/yy - h:ii p';//'d M yy - H:i p';
     public $strLinkFormat = null;
     public $txtDate = null;
     public function __construct($objParentControl, $objMDEApp = null) {
