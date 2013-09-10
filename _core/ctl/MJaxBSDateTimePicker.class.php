@@ -36,11 +36,11 @@ class MJaxBSDateTimePicker extends MJaxPanel{
                 MLCApplication::GetAssetUrl('/js/bootstrap-datetimepicker.js', 'MJaxBootstrap')
             )
         );
-        $this->objForm->AddHeaderAsset(
+        /*$this->objForm->AddHeaderAsset(
             new MJaxCssHeaderAsset(
-                MLCApplication::GetAssetUrl('/css/bootstrap-datetimepicker.min.css', 'MJaxBootstrap')
+                MLCApplication::GetAssetUrl('/css/bootstrap-datetimepicker.css', 'MJaxBootstrap')
             )
-        );
+        );*/
         $this->strTemplate = __MJAX_BS_CORE_VIEW__ . '/' . get_class($this) . '.tpl.php';
 
         $this->txtDate = new MJaxTextBox($this);
@@ -81,7 +81,7 @@ class MJaxBSDateTimePicker extends MJaxPanel{
 
 
         $strJs = sprintf("
-                   $('#%s .form_datetime').datetimepicker(
+                   $('#%s').datetimepicker(
                         %s
                    );
                 ",
