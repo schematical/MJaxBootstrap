@@ -48,6 +48,10 @@ class MJaxBSDateTimePicker extends MJaxPanel{
         $this->txtDate->Attr('size', '16');
         $this->txtDate->Attr('readonly', 'readonly');
         $this->txtDate->TextMode = MJaxTextMode::Hidden;
+
+
+        //$this->Style->__set('margin-left','18Px;');
+        $this->AddCssClass('controls input-append date form_datetime');
     }
     public function DateOnly(){
         $this->strFormat = 'dd MM yyyy';
@@ -63,10 +67,17 @@ class MJaxBSDateTimePicker extends MJaxPanel{
 
     }
     public function Render($blnPrint = true, $blnAjax = false){
+        $strHtml = parent::Render(false, $blnAjax);
+
+        $this->arrAttr['data-date'] = $this->txtDate->Text;
 
 
+        $this->arrAttr['data-date-format'] = $this->strFormat;
+        $this->arrAttr['data-link-field'] = $this->txtDate->ControlId;
+        if(!is_null($this->strLinkFormat)){
+            $this->arrAttr['data-link-format'] = $this->strLinkFormat;
+        }
 
-        $strHtml = parent::Render(false);
 
 
         $strJs = sprintf("
@@ -91,7 +102,7 @@ class MJaxBSDateTimePicker extends MJaxPanel{
 
         }
         if($blnAjax){
-            $strHtml = MLCApplication::XmlEscape(trim($strHtml));
+            //$strHtml = MLCApplication::XmlEscape(trim($strHtml));
         }
         $this->txtDate->Modified = false;
         $this->blnModified = false;
