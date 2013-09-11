@@ -67,7 +67,7 @@ $(function(){
 		'click',
 		'[data-mlc-scroll]',
 		function(){
-			var strTo = '#' + $(this).attr('data-mlc-scroll');
+			var strTo = $(this).attr('data-mlc-scroll');
 			MJax.BS.ScrollTo(strTo);
 			return false;
 		}

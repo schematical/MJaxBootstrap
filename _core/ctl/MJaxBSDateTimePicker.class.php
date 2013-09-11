@@ -48,14 +48,17 @@ class MJaxBSDateTimePicker extends MJaxPanel{
         $this->txtDate->Attr('size', '16');
         $this->txtDate->Attr('readonly', 'readonly');
         $this->txtDate->TextMode = MJaxTextMode::Hidden;
+        $this->Style->Display = 'block';
 
 
         //$this->Style->__set('margin-left','18Px;');
         $this->AddCssClass('controls input-append date form_datetime');
+
+        $this->arrOptions['startDate'] = MLCDateTime::Now();
     }
     public function DateOnly(){
-        $this->strFormat = 'dd MM yyyy';
-        $this->strLinkFormat = 'yyyy-mm-dd';
+        $this->strFormat = 'dd/mm/yy';
+        $this->strLinkFormat = 'dd/mm/yy';
         $this->arrOptions['minView'] = 2;
     }
     public function TimeOnly(){
@@ -162,8 +165,11 @@ class MJaxBSDateTimePicker extends MJaxPanel{
         return $strDate;
     }
     public function SetValue($mixVal){
-
+        $this->arrOptions['initialDate'] = $mixVal;
         return $this->txtDate->Text = $mixVal;
+    }
+    public function RemoveMinStartDate(){
+        unset($this->arrOptions['startDate']);
     }
     public function _translate($strDate, $blnReverse = false){
         foreach($this->arrIsoHack as $strFind => $strReplace){
