@@ -23,6 +23,9 @@ MJax.BS.HideAlert = function(strHtml){
 MJax.BS.CtlAlert = function(mixEle, strHtml, strType){
 	
 	var jEle = $(mixEle);
+    if(jEle.parent().is('.input-append, .input-prepend')){
+        jEle = jEle.parent();
+    }
 	var jAlert = $('<div class="alert mlc-bs-alert"><button type="button" class="close" data-dismiss="alert">&times;</button></div>');
 	if(typeof(strType) != 'undefined'){
 		jAlert.addClass('alert-' + strType);
@@ -74,6 +77,18 @@ MJax.BS.DatetimePicker = {
         });
     }
 }
+MJax.BS.Popover = {
+    Init:function(){
+        $('[data-toggle="popover"]').each(function () {
+            $(this).popover();
+            $(this).click(function(objEvent){
+                objEvent.preventDefault();
+
+                $(this).popover('toggle');
+            });
+        });
+    }
+}
 
 //Init stuff
 
@@ -102,6 +117,7 @@ $(function(){
         $('[data-spy="scroll"]').each(function () {
             var $spy = $(this).scrollspy('refresh')
         });
+
 
 
     });
@@ -150,6 +166,10 @@ $(function(){
         $('#' + this.$element.attr('data-real-id')).val(val).change();
         return this.hide()
     }
+
+    MJax.BS.Popover.Init();
+
+
 })
 
 

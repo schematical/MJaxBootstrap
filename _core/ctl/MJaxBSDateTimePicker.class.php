@@ -210,6 +210,8 @@ class MJaxBSDateTimePicker extends MJaxPanel{
 
             case "Options":
                 return $this->arrOptions = $mixValue;
+            case "EndDate":
+                return $this->arrOptions['endDate'] = $mixValue;
             default:
                 return parent::__set($strName, $mixValue);
                 //throw new Exception("Not porperty exists with name '" . $strName . "' in class " . __CLASS__);
