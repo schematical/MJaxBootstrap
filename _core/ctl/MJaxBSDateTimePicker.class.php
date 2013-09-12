@@ -210,6 +210,8 @@ class MJaxBSDateTimePicker extends MJaxPanel{
 
             case "Options":
                 return $this->arrOptions = $mixValue;
+            case "StartDate":
+                return $this->arrOptions['startDate'] = $mixValue;
             case "EndDate":
                 return $this->arrOptions['endDate'] = $mixValue;
             default:
