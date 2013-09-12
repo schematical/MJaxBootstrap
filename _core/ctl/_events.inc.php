@@ -8,3 +8,6 @@ class MJaxBSCancelEvent extends MJaxEventBase{
 class MJaxBSAutocompleteSelectEvent extends MJaxEventBase{
     protected $strEventName = 'mjax-bs-autocomplete-select';
 }
+class MJaxBSDatetimepickerChangeEvent extends MJaxEventBase{
+    protected $strEventName = 'mjax-bs-datetimepicker-change';
+}

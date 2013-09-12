@@ -59,6 +59,21 @@ MJax.BS.AnimateClosed = function(mixEle){
     }, 2000);
    // MJax.BS.ScrollTo(jEle);
 }
+MJax.BS.DatetimePicker = {
+    Init:function(strSelector){
+        $(strSelector).datetimepicker().on('changeDate', function(objEvent){
+            var jThis = $(this);
+            var objData = {};
+            objData[jThis.attr('id')] = objEvent.date.valueOf()/1000;//Why IDK
+            MJax.TriggerControlEvent(
+                objEvent,
+                '#'+ jThis.attr('id'),
+                'mjax-bs-datetimepicker-change',
+                 objData
+            );
+        });
+    }
+}
 
 //Init stuff
 

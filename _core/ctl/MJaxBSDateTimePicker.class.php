@@ -25,7 +25,9 @@ class MJaxBSDateTimePicker extends MJaxPanel{
         'yy' => 'Y',
         'yy' => 'y',
     );
-    public $strFormat = 'm/d/yy - h:ii p';//'d M yy - H:i p';
+    public $strDate = null;
+    public $blnInited = false;
+    //public $strFormat = 'm/d/yy - h:ii p';//'d M yy - H:i p';
     public $strLinkFormat = null;
     public $txtDate = null;
     public function __construct($objParentControl, $objMDEApp = null) {
@@ -36,14 +38,10 @@ class MJaxBSDateTimePicker extends MJaxPanel{
                 MLCApplication::GetAssetUrl('/js/bootstrap-datetimepicker.js', 'MJaxBootstrap')
             )
         );
-        /*$this->objForm->AddHeaderAsset(
-            new MJaxCssHeaderAsset(
-                MLCApplication::GetAssetUrl('/css/bootstrap-datetimepicker.css', 'MJaxBootstrap')
-            )
-        );*/
+        $this->arrOptions['format'] = 'm/d/yy - h:ii p';
         $this->strTemplate = __MJAX_BS_CORE_VIEW__ . '/' . get_class($this) . '.tpl.php';
 
-        $this->txtDate = new MJaxTextBox($this);
+        $this->txtDate = new MJaxTextBox($this, $this->ControlId . '_prxyDate');
         //<input size="16" type="text" value="" readonly>
         $this->txtDate->Attr('size', '16');
         $this->txtDate->Attr('readonly', 'readonly');
@@ -55,24 +53,9 @@ class MJaxBSDateTimePicker extends MJaxPanel{
         $this->AddCssClass('controls input-append date form_datetime');
 
         $this->arrOptions['startDate'] = MLCDateTime::Now();
-    }
-    public function DateOnly(){
-        $this->strFormat = 'dd/mm/yy';
-        $this->strLinkFormat = 'dd/mm/yy';
-        $this->arrOptions['minView'] = 2;
-    }
-    public function TimeOnly(){
-        $this->strFormat = 'hh:ii';
-        $this->strLinkFormat = 'hh:ii';
-        $this->arrOptions['minView'] = 0;
-        $this->arrOptions['maxView'] = 1;
-        $this->arrOptions['startView'] = 1;
 
-    }
-    public function Render($blnPrint = true, $blnAjax = false){
-        $strHtml = parent::Render(false, $blnAjax);
-
-        $this->arrAttr['data-date'] = $this->txtDate->Text;
+        /*
+         *   $arrOptions['data-date'] = $this->strDate;
 
 
         $this->arrAttr['data-date-format'] = $this->strFormat;
@@ -81,40 +64,116 @@ class MJaxBSDateTimePicker extends MJaxPanel{
             $this->arrAttr['data-link-format'] = $this->strLinkFormat;
         }
 
+         */
+
+
+    }
+    public function DateOnly(){
+        $this->arrOptions['format'] = 'mm/dd/yy';
+
+        $this->arrOptions['minView'] = 2;
+    }
+    public function TimeOnly(){
+        $this->arrOptions['format'] = 'hh:ii';
+        //$this->strLinkFormat = 'hh:ii';
+        $this->arrOptions['minView'] = 0;
+        $this->arrOptions['maxView'] = 1;
+        $this->arrOptions['startView'] = 1;
+
+    }
+    public function Render($blnPrint = true, $blnAjax = false){
+        $this->Init();
+        $strHtml = parent::Render($blnPrint, $blnAjax);
+
+        return $strHtml;
+    }
+    public function CallJS($mixFirstArgument, $mixSecondArgument = null){
+        if(is_array($mixFirstArgument)){
+            $strFirstArgument = json_encode($mixFirstArgument);
+        }elseif(is_string($mixFirstArgument)){
+            $strFirstArgument = "'". $mixFirstArgument . "'";//
+        }elseif(is_numeric($mixFirstArgument)){
+            $strFirstArgument =  $mixFirstArgument;
+        }else{
+            throw new MLCWrongTypeException(__FUNCTION__, $mixFirstArgument);
+        }
+        $strSecondArgument = '';
+        if(!is_null($mixSecondArgument)){
+            $strSecondArgument = ', ';
+            if(is_array($mixSecondArgument)){
+                $strSecondArgument .= json_encode($mixSecondArgument);
+            }elseif(is_string($mixSecondArgument)){
+                $strSecondArgument .= "'". $mixSecondArgument . "'";//
+            }elseif(is_numeric($mixSecondArgument)){
+                $strSecondArgument .=  $mixSecondArgument;
+            }else{
+                throw new MLCWrongTypeException(__FUNCTION__, $mixSecondArgument);
+            }
+        }
 
 
         $strJs = sprintf("
                    $('#%s').datetimepicker(
                         %s
+                        %s
                    );
                 ",
             $this->ControlId,
-            json_encode($this->arrOptions)
+            $strFirstArgument,
+            $strSecondArgument
         );
-        if($this->objForm->CallType == MJaxCallType::None){
-            $strHtml .= "<script language='javascript'>";
-            $strHtml .= '$(function(){ ';
-            $strHtml .= $strJs;
-            $strHtml .= '});';
-            $strHtml .= '</script>';
-        }else{
 
-            $this->objForm->AddJSCall(
-                $strJs
-            );
 
-        }
-        if($blnAjax){
-            //$strHtml = MLCApplication::XmlEscape(trim($strHtml));
-        }
-        $this->txtDate->Modified = false;
-        $this->blnModified = false;
-        if($blnPrint){
-            echo $strHtml;
-        }
-        return $strHtml;
+        $this->objForm->AddJSCall(
+            $strJs
+        );
 
     }
+    public function Init($arrOptions = array()){
+        if(!$this->blnInited){
+            foreach($this->arrOptions as $strKey => $mixVal){
+                if(!array_key_exists($strKey, $arrOptions)){
+
+                    $arrOptions[$strKey] = $this->arrOptions[$strKey];
+                }
+            }
+            $this->CallJS($arrOptions);
+            $this->objForm->AddJSCall(
+                sprintf(
+                    "MJax.BS.DatetimePicker.Init('#%s');",
+                    $this->strControlId
+                )
+            );
+            $this->blnInited = true;
+        }
+
+    }
+    public function Show(){
+
+        $this->CallJS('show');
+
+    }
+    public function Hide(){
+
+        $this->CallJS('hide');
+
+    }
+    public function Place(){
+
+        $this->CallJS('place');
+
+    }
+    public function Remove(){
+
+        $this->CallJS('remove');
+
+    }
+    public function Update(){
+
+        $this->CallJS('update',  $this->strDate);
+
+    }
+
 
     /////////////////////////
     // Public Properties: GET
@@ -123,7 +182,7 @@ class MJaxBSDateTimePicker extends MJaxPanel{
     {
         switch ($strName) {
             case "Format":
-                return $this->strFormat;
+                return $this->arrOptions['format'];
             case "Value":
                 return $this->GetValue();
             case "Options":
@@ -139,15 +198,16 @@ class MJaxBSDateTimePicker extends MJaxPanel{
     /////////////////////////
     public function __set($strName, $mixValue)
     {
+
         $this->blnModified = true;
         switch ($strName) {
-
+            case "Modified":
+                throw new Exception("WTF?");
             case "Value":
                 return  $this->SetValue($mixValue);
             case "Format":
-                return $this->strFormat = $mixValue;
-            case "LinkFormat":
-                return $this->strLinkFormat = $mixValue;
+                return  $this->arrOptions['format'] = $mixValue;
+
             case "Options":
                 return $this->arrOptions = $mixValue;
             default:
@@ -155,18 +215,37 @@ class MJaxBSDateTimePicker extends MJaxPanel{
                 //throw new Exception("Not porperty exists with name '" . $strName . "' in class " . __CLASS__);
         }
     }
-    public function GetValue(){
-        $this->blnModified = true;
+    public function ParsePostData(){
+        //parent::ParsePostData();
+        if(array_key_exists($this->strControlId, $_POST)){
 
-        if(strlen($this->txtDate->Text) < 2){
+            $this->strDate = date(MLCDateTime::MYSQL_FORMAT, $_POST [$this->strControlId]);//->format(MLCDateTime::MYSQL_FORMAT);
+
+        }
+    }
+    public function GetValue(){
+
+
+        if(strlen($this->strDate) < 2){
             return null;
         }
-        $strDate = MLCDateTime::ConvertFromFormatToFormat($this->strFormat, MLCDateTime::MYSQL_FORMAT, $this->txtDate->Text);
-        return $strDate;
+
+        //$strDate = MLCDateTime::ConvertFromFormatToFormat($this->strFormat, MLCDateTime::MYSQL_FORMAT, $this->strDate);
+        return $this->strDate;
     }
     public function SetValue($mixVal){
-        $this->arrOptions['initialDate'] = $mixVal;
-        return $this->txtDate->Text = $mixVal;
+        $this->strDate= $mixVal;
+        if(!$this->blnInited){
+            $this->arrOptions['initialDate'] = $this->strDate;
+        }else{
+            //$this->CallJS('setValue', $this->strDate);
+            $this->txtDate->Text = $this->strDate;
+            $this->Update();
+        }
+
+
+
+
     }
     public function RemoveMinStartDate(){
         unset($this->arrOptions['startDate']);
