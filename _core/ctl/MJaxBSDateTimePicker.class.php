@@ -38,7 +38,7 @@ class MJaxBSDateTimePicker extends MJaxPanel{
                 MLCApplication::GetAssetUrl('/js/bootstrap-datetimepicker.js', 'MJaxBootstrap')
             )
         );
-        $this->arrOptions['format'] = 'm/d/yy - h:ii p';
+        $this->arrOptions['format'] = 'm/d/yy - H:ii P';
         $this->strTemplate = __MJAX_BS_CORE_VIEW__ . '/' . get_class($this) . '.tpl.php';
 
         $this->txtDate = new MJaxTextBox($this, $this->ControlId . '_prxyDate');
@@ -74,7 +74,7 @@ class MJaxBSDateTimePicker extends MJaxPanel{
         $this->arrOptions['minView'] = 2;
     }
     public function TimeOnly(){
-        $this->arrOptions['format'] = 'hh:ii';
+        $this->arrOptions['format'] = 'H:ii P';
         //$this->strLinkFormat = 'hh:ii';
         $this->arrOptions['minView'] = 0;
         $this->arrOptions['maxView'] = 1;
