@@ -18,6 +18,9 @@ MLCApplicationBase::$arrClassFiles['MJaxBSConfirmPanel'] = __MJAX_BS_CORE_CTL__ 
 
 MLCApplicationBase::$arrClassFiles['MJaxBSTableColumn'] = __MJAX_BS_CORE_CTL__ . '/MJaxBSTableColumn.class.php';
 
+MLCApplicationBase::$arrClassFiles['MJaxBSPillBoxPanel'] = __MJAX_BS_CORE_CTL__ . '/MJaxBSPillBoxPanel.class.php';
+MLCApplicationBase::$arrClassFiles['MJaxBSPillBox'] = __MJAX_BS_CORE_CTL__ . '/MJaxBSPillBox.class.php';
+
 
 
 require_once(__MJAX_BS_CORE_CTL__ . '/_events.inc.php');
