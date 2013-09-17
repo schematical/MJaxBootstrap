@@ -89,6 +89,38 @@ MJax.BS.Popover = {
         });
     }
 }
+MJax.BS.Autocomplete = {
+    Init:function(strControlId, arrData){
+        $('#' +strControlId +'_proxy').data('mjax-data', arrData);
+        $('#' +strControlId +'_proxy').typeahead({
+            source:function(strSearch, funProcess){
+                var arrData = $(this.$element).data('mjax-data');
+                arrData['search'] = strSearch;
+                if(typeof(arrData['old_url_data']) != 'undefined'){
+                    if(MJax.strCurrPageUrl.indexOf('?') == -1){
+                        var strUrl = MJax.strCurrPageUrl + '.typehead_' + arrData['old_url_data'];
+                    }else{
+                        var strUrl = MJax.strCurrPageUrl + '&mjax-route-ext=typehead_' +  + arrData['old_url_data'];
+                    }
+                }else{
+                    var strUrl = arrData['url'];
+                }
+                $.ajax({
+                    url: strUrl,
+                    success: funProcess,
+                    data:arrData,
+                    dataType:'json',
+                    error: MJax.LoadMainPageLoadFail,
+                    type:'POST'
+
+                });
+            },
+            menu: '<ol class=\"typeahead dropdown-menu\"></ol>',
+            item:'<li><a href=\"#\"></a></li>'
+        });
+    }
+};
+
 
 //Init stuff
 
@@ -129,7 +161,16 @@ $(function(){
     });
     $.fn.typeahead.Constructor.prototype.render = function (items) {
         var that = this
-
+        var arrData = $(this.$element).data('mjax-data');
+        if(
+            (!arrData['only_existing']) &&
+            (items.length == 0)
+        ){
+            items[items.length] = {
+                text:this.$element.val(),
+                value:this.$element.val()
+            };
+        }
         items = $(items).map(function (i, item) {
             i = $(that.options.item).attr('data-value', item.value)
             i.attr('data-text', item.text)
@@ -163,7 +204,9 @@ $(function(){
         this.$element
             .val(this.updater(text))
             .change();
-        $('#' + this.$element.attr('data-real-id')).val(val).change();
+        var jRealCtl = $('#' + this.$element.attr('data-real-id'));
+        jRealCtl.val(val).change();
+        jRealCtl.trigger('mjax-bs-autocomplete-select');
         return this.hide()
     }
 

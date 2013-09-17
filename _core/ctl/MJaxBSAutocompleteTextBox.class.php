@@ -1,7 +1,10 @@
 <?php
 class MJaxBSAutocompleteTextBox extends MJaxTextBox{
     protected $strProxyText = null;
-    protected $strUrl = null;
+    protected $strUrl = '/data/search';
+    protected $blnOnlyExisting = false;
+    protected $strEntity = null;
+    protected $strEntityField = null;
     public function __construct($objParentControl, $strControlId = null){//$strUrl = null, $strFunction = null){
         parent::__construct($objParentControl, $strControlId);
        /* if(!is_null($strUrl)){
@@ -21,48 +24,19 @@ class MJaxBSAutocompleteTextBox extends MJaxTextBox{
     public function Render($blnPrint = true, $blnAjax = false){
         $strHtml = parent::Render(false);
         //Messed up hacky stuff
-        //TODO: Remove all this BS seperate out properly
-        if(is_null($this->strUrl)){
-            $strUrlCode = sprintf("if(MJax.strCurrPageUrl.indexOf('?') == -1){
-                            var strUrl = MJax.strCurrPageUrl + '.typehead_%s'
-                        }else{
-                            var strUrl = MJax.strCurrPageUrl + '&mjax-route-ext=typehead_%s';
-                        }",
-                $this->ControlId,
-                $this->ControlId
-            );
+        $arrData = array();
+        if(!is_null($this->strEntity)){
+            $arrData['entity'] = $this->strEntity;
+            $arrData['entity_field'] = $this->strEntityField;
+            $arrData['url'] = $this->strUrl;
         }else{
-            $strUrlCode = 'var strUrl = "' . $this->strUrl . '";';
+
         }
-
-
-        $strJs = sprintf("
-
-                $('#%s_proxy').typeahead({
-                    source:function(strSearch, funProcess){
-
-                        %s
-                        $.ajax({
-                            url: strUrl,
-                            success: funProcess,
-                            data:{
-                                search:strSearch
-                            },
-                            dataType:'json',
-                            error: MJax.LoadMainPageLoadFail,
-                            type:'POST'
-
-                        });
-                    },
-                    menu: '<ol class=\"typeahead dropdown-menu\"></ol>',
-                    item:'<li><a href=\"#\"></a></li>'
-                 });
-
-            ",
-
-
+        $arrData['only_existing'] = $this->blnOnlyExisting;
+        $strJs = sprintf(
+            "MJax.BS.Autocomplete.Init('%s',%s);",
             $this->ControlId,
-            $strUrlCode
+            json_encode($arrData)
         );
 
         if(!$blnAjax){
@@ -104,6 +78,12 @@ class MJaxBSAutocompleteTextBox extends MJaxTextBox{
                 return $this->strText;
             case "Url":
                 return $this->strUrl;
+            case "Entity":
+                return $this->strEntity;
+            case "EntityField":
+                return $this->strEntityField;
+            case "OnlyExisting":
+                return $this->blnOnlyExisting;
             default:
                 return parent::__get($strName);
         }
@@ -121,21 +101,20 @@ class MJaxBSAutocompleteTextBox extends MJaxTextBox{
                 return $this->strText = $mixValue;
             case "Url":
                 return $this->strUrl = $mixValue;
+            case "Entity":
+                return $this->strEntity = $mixValue;
+            case "EntityField":
+                return $this->strEntityField = $mixValue;
+            case "OnlyExisting":
+                return $this->blnOnlyExisting = $mixValue;
+
             default:
                 return parent::__set($strName, $mixValue);
         }
     }
     public function SetSearchEntity($strEntity, $strField = null){
-        $strSearchExt = $strEntity;
-        if(!is_null($strField)){
-            $strSearchExt .= '_' .$strField;
-        }
-        $this->strUrl = $this->objForm->objEntityManager->GetUrl(
-            '/data/search',
-            array(
-                'mjax-route-ext'=> $strSearchExt
-            )
-        );
+        $this->strEntity = $strEntity;
+        $this->strEntityField = $strField;
     }
     public function GetValue(){
         $arrParts = explode('_', $this->strText);

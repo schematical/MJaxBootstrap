@@ -15,6 +15,7 @@ MLCApplicationBase::$arrClassFiles['MJaxBSDateTimePicker'] = __MJAX_BS_CORE_CTL_
 MLCApplicationBase::$arrClassFiles['MJaxBSAutocompleteTextBox'] = __MJAX_BS_CORE_CTL__ . '/MJaxBSAutocompleteTextBox.class.php';
 MLCApplicationBase::$arrClassFiles['MJaxBSDropdown'] = __MJAX_BS_CORE_CTL__ . '/MJaxBSDropdown.class.php';
 MLCApplicationBase::$arrClassFiles['MJaxBSConfirmPanel'] = __MJAX_BS_CORE_CTL__ . '/MJaxBSConfirmPanel.class.php';
+MLCApplicationBase::$arrClassFiles['MJaxBSListBox'] = __MJAX_BS_CORE_CTL__ . '/MJaxBSListBox.class.php';
 
 MLCApplicationBase::$arrClassFiles['MJaxBSTableColumn'] = __MJAX_BS_CORE_CTL__ . '/MJaxBSTableColumn.class.php';
 
