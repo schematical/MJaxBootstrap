@@ -113,11 +113,12 @@ class MJaxBSDateTimePicker extends MJaxPanel{
 
 
         $strJs = sprintf("
-                   $('#%s').datetimepicker(
-                        %s
-                        %s
-                   );
-                ",
+            $(document).one('mjax-page-load', function(){
+               $('#%s').datetimepicker(
+                    %s
+                    %s
+               );
+            });",
             $this->ControlId,
             $strFirstArgument,
             $strSecondArgument
