@@ -138,11 +138,14 @@ class MJaxBSDateTimePicker extends MJaxPanel{
                     $arrOptions[$strKey] = $this->arrOptions[$strKey];
                 }
             }
-            $this->CallJS($arrOptions);
+            //$this->CallJS($arrOptions);
             $this->objForm->AddJSCall(
                 sprintf(
-                    "MJax.BS.DatetimePicker.Init('#%s');",
-                    $this->strControlId
+                    "$(document).one('mjax-page-load', function(){
+                        MJax.BS.DatetimePicker.Init('#%s', %s);
+                    });",
+                    $this->strControlId,
+                    json_encode($arrOptions)
                 )
             );
             $this->blnInited = true;

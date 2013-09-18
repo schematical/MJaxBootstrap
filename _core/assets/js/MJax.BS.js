@@ -63,8 +63,8 @@ MJax.BS.AnimateClosed = function(mixEle){
    // MJax.BS.ScrollTo(jEle);
 }
 MJax.BS.DatetimePicker = {
-    Init:function(strSelector){
-        $(strSelector).datetimepicker().on('changeDate', function(objEvent){
+    Init:function(strSelector, objOptions){
+        $(strSelector).datetimepicker(objOptions).on('changeDate', function(objEvent){
             var jThis = $(this);
             var objData = {};
             objData[jThis.attr('id')] = objEvent.date.valueOf()/1000;//Why IDK
