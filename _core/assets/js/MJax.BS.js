@@ -80,15 +80,20 @@ MJax.BS.DatetimePicker = {
 MJax.BS.Popover = {
     Init:function(){
         $('[data-toggle="popover"]').each(function () {
-            $(this).popover();
-            $(this).click(function(objEvent){
-                objEvent.preventDefault();
+            var jThis =  $(this);
+            if(jThis.data('mjax-bs-popover-init') == null){
+                jThis.popover();
+                jThis.data('mjax-bs-popover-init', true);
+                jThis.click(function(objEvent){
+                    objEvent.preventDefault();
 
-                $(this).popover('toggle');
-            });
+                    $(this).popover('toggle');
+                });
+            }
         });
     }
 }
+
 MJax.BS.Autocomplete = {
     Init:function(strControlId, arrData){
         $('#' +strControlId +'_proxy').data('mjax-data', arrData);
@@ -211,6 +216,7 @@ $(function(){
     }
 
     MJax.BS.Popover.Init();
+    $(document).on('mjax-page-load', function(){ MJax.BS.Popover.Init(); });
 
 
 })
